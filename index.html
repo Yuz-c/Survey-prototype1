@@ -4,9 +4,104 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>アンケート</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background: #f3f6fb;
+      color: #263247;
+      padding: 20px;
+    }
+
+    .survey {
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 24px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px #26324712;
+      text-align: center;
+    }
+
+    .label {
+      color: #718096;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 32px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      flex: 1;
+      min-height: 56px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .yes {
+      background: #3478f6;
+      color: white;
+    }
+
+    .no {
+      background: #e8edf5;
+      color: #263247;
+    }
+
+    #result {
+      margin-top: 24px;
+      font-size: 16px;
+      min-height: 24px;
+    }
+  </style>
 </head>
 <body>
-  <h1>アンケート</h1>
-  <p>サイトの準備ができたよ！</p>
+  <main class="survey">
+    <div class="label">アンケート</div>
+    <h1>仮の質問1</h1>
+
+    <div class="buttons">
+      <button class="yes" onclick="answer('はい')">
+        はい
+      </button>
+      <button class="no" onclick="answer('いいえ')">
+        いいえ
+      </button>
+    </div>
+
+    <p id="result" aria-live="polite"></p>
+  </main>
+
+  <script>
+    function answer(value) {
+      document.getElementById("result").textContent =
+        "あなたの回答：「" + value + "」";
+    }
+  </script>
 </body>
 </html>
