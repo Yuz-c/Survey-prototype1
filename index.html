@@ -136,7 +136,7 @@ const questions = {
   },
 
   q2: {
-    text: "仮の質問2",
+    text: "どー？",
     yes: "q4",
     no: "q5"
   },
@@ -148,39 +148,27 @@ const questions = {
   },
 
   q4: {
-    text: "仮の質問4",
-    yes: "q8",
-    no: "q9"
+    text: "O1え、マジで？",
+    yes: "half1",
+    no: "q7"
   },
 
   q5: {
-    text: "仮の質問5",
-    yes: "q8",
-    no: "q9"
-  },
-
-  q6: {
-    text: "仮の質問6",
-    yes: "q8",
+    text: "X1やっぱダメすか...",
+    yes: "end1",
     no: "q9"
   },
 
   q7: {
-    text: "仮の質問7",
-    yes: "q8",
+    text: "あ、やっぱダメ?",
+    yes: "q5",
     no: "q9"
   },
 
-  q8: {
-    text: "仮の質問8",
-    yes: "end",
-    no: "end"
-  },
-
   q9: {
-    text: "仮の質問9",
-    yes: "end",
-    no: "end"
+    text: "え?やっぱワンチャンある?",
+    yes: "q4",
+    no: "end1"
   }
 };
     let currentQuestion = "q1";
