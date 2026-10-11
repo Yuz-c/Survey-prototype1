@@ -1,45 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>アンケート</title>
+
   <style>
     * {
       box-sizing: border-box;
     }
 
     body {
-  margin: 0;
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: sans-serif;
-  background: #B8B2C4;
-  color: #263247;
-  padding: 20px;
-}
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background: #B8B2C4;
+      color: #302A3A;
+      padding: 20px;
+    }
 
-.survey {
-  width: 100%;
-  max-width: 420px;
-  padding: 36px 24px;
-  background: #A39AAF;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px #51465f30;
-  text-align: center;
-}
+    .survey {
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 24px;
+      background: #A39AAF;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px #51465f30;
+      text-align: center;
+    }
+
     .label {
-      color: #718096;
+      color: #F1EDF7;
       font-size: 14px;
       margin-bottom: 16px;
+      letter-spacing: 0.08em;
     }
 
     h1 {
       font-size: 28px;
+      line-height: 1.5;
       margin: 0 0 32px;
+      overflow-wrap: anywhere;
     }
 
     .buttons {
@@ -49,6 +55,7 @@
 
     button {
       flex: 1;
+      min-width: 0;
       min-height: 56px;
       border: none;
       border-radius: 12px;
@@ -62,45 +69,170 @@
       transform: scale(0.97);
     }
 
+    button:focus-visible {
+      outline: 3px solid #FFFFFF;
+      outline-offset: 3px;
+    }
+
     .yes {
-      background: #3478f6;
+      background: #8875C7;
       color: white;
     }
 
     .no {
-      background: #e8edf5;
-      color: #263247;
+      background: #E7E1EE;
+      color: #40374D;
     }
 
     #result {
-      margin-top: 24px;
-      font-size: 16px;
-      min-height: 24px;
+      margin: 24px 0 0;
+      color: #F7F4FA;
+      font-size: 14px;
+      min-height: 21px;
+    }
+
+    .restart {
+      margin-top: 12px;
+      width: 100%;
+      background: transparent;
+      color: #FFFFFF;
+      border: 1px solid #E7E1EE;
+      font-size: 14px;
+      min-height: 44px;
+    }
+
+    [hidden] {
+      display: none !important;
     }
   </style>
 </head>
+
 <body>
   <main class="survey">
     <div class="label">アンケート</div>
-    <h1>仮の質問1</h1>
 
-    <div class="buttons">
-      <button class="yes" onclick="answer('はい')">
-        はい
-      </button>
-      <button class="no" onclick="answer('いいえ')">
-        いいえ
-      </button>
+    <h1 id="question">仮の質問1</h1>
+
+    <div class="buttons" id="buttons">
+      <button class="yes" id="yesButton">はい</button>
+      <button class="no" id="noButton">いいえ</button>
     </div>
 
     <p id="result" aria-live="polite"></p>
+
+    <button class="restart" id="restartButton" hidden>
+      最初からやり直す
+    </button>
   </main>
 
   <script>
-    function answer(value) {
-      document.getElementById("result").textContent =
-        "あなたの回答：「" + value + "」";
+    // 質問と、回答後に進む先を設定する
+    const questions = {
+      q1: {
+        text: "仮の質問1",
+        yes: "q2",
+        no: "q3"
+      },
+
+      q2: {
+        text: "仮の質問2",
+        yes: "q4",
+        no: "q5"
+      },
+
+      q3: {
+        text: "仮の質問3",
+        yes: "q6",
+        no: "q7"
+      },
+
+      q4: {
+        text: "仮の質問4",
+        yes: "q8",
+        no: "q9"
+      },
+
+      q5: {
+        text: "仮の質問5",
+        yes: "q8",
+        no: "q9"
+      },
+
+      q6: {
+        text: "仮の質問6",
+        yes: "q8",
+        no: "q9"
+      },
+
+      q7: {
+        text: "仮の質問7",
+        yes: "q8",
+        no: "q9"
+      },
+
+      q8: {
+        text: "仮の質問8",
+        yes: "end",
+        no: "end"
+      },
+
+      q9: {
+        text: "仮の質問9",
+        yes: "end",
+        no: "end"
+      }
+    };
+
+    let currentQuestion = "q1";
+    const history = [];
+
+    const questionElement = document.getElementById("question");
+    const resultElement = document.getElementById("result");
+    const buttonsElement = document.getElementById("buttons");
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const question = questions[currentQuestion];
+
+      questionElement.textContent = question.text;
+      resultElement.textContent = "";
+      buttonsElement.hidden = false;
+      restartButton.hidden = true;
     }
+
+    function answer(value) {
+      const question = questions[currentQuestion];
+      const nextQuestion = question[value];
+
+      history.push({
+        questionId: currentQuestion,
+        answer: value
+      });
+
+      if (nextQuestion === "end") {
+        questionElement.textContent = "アンケート終了";
+        resultElement.textContent = "回答ありがとうございました！";
+        buttonsElement.hidden = true;
+        restartButton.hidden = false;
+        return;
+      }
+
+      currentQuestion = nextQuestion;
+      showQuestion();
+    }
+
+    yesButton.addEventListener("click", () => answer("yes"));
+    noButton.addEventListener("click", () => answer("no"));
+
+    restartButton.addEventListener("click", () => {
+      currentQuestion = "q1";
+      history.length = 0;
+      showQuestion();
+    });
+
+    showQuestion();
   </script>
 </body>
 </html>
