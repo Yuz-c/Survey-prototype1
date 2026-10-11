@@ -127,59 +127,62 @@
 
   <script>
     // 質問と、回答後に進む先を設定する
-    const questions = {
-      q1: {
-        text: "ready?",
-        yes: "q2",
-        no: "shobon"
-      },
+    
+const questions = {
+  q1: {
+    text: "ready?",
+    yes: "q2",
+    no: "shobon"
+  },
 
-      q2: {
-        text: "仮の質問2",
-        yes: "q4",
-        no: "q5"
-      },
+  q2: {
+    text: "仮の質問2",
+    yes: "q4",
+    no: "q5"
+  },
 
-      shobon:{
-        h1: "(´・ω・｀)"
-          
-      q4: {
-        text: "仮の質問4",
-        yes: "q8",
-        no: "q9"
-      },
+  shobon: {
+    text: "(´・ω・｀)",
+    yes: "end",
+    no: "end"
+  },
 
-      q5: {
-        text: "仮の質問5",
-        yes: "q8",
-        no: "q9"
-      },
+  q4: {
+    text: "仮の質問4",
+    yes: "q8",
+    no: "q9"
+  },
 
-      q6: {
-        text: "仮の質問6",
-        yes: "q8",
-        no: "q9"
-      },
+  q5: {
+    text: "仮の質問5",
+    yes: "q8",
+    no: "q9"
+  },
 
-      q7: {
-        text: "仮の質問7",
-        yes: "q8",
-        no: "q9"
-      },
+  q6: {
+    text: "仮の質問6",
+    yes: "q8",
+    no: "q9"
+  },
 
-      q8: {
-        text: "仮の質問8",
-        yes: "end",
-        no: "end"
-      },
+  q7: {
+    text: "仮の質問7",
+    yes: "q8",
+    no: "q9"
+  },
 
-      q9: {
-        text: "仮の質問9",
-        yes: "end",
-        no: "end"
-      }
-    };
+  q8: {
+    text: "仮の質問8",
+    yes: "end",
+    no: "end"
+  },
 
+  q9: {
+    text: "仮の質問9",
+    yes: "end",
+    no: "end"
+  }
+};
     let currentQuestion = "q1";
     const history = [];
 
@@ -190,35 +193,37 @@
     const noButton = document.getElementById("noButton");
     const restartButton = document.getElementById("restartButton");
 
-    function showQuestion() {
-      const question = questions[currentQuestion];
+    
+function answer(value) {
+  const question = questions[currentQuestion];
+  const nextQuestion = question[value];
 
-      questionElement.textContent = question.text;
-      resultElement.textContent = "";
-      buttonsElement.hidden = false;
-      restartButton.hidden = true;
-    }
+  history.push({
+    questionId: currentQuestion,
+    answer: value
+  });
 
-    function answer(value) {
-      const question = questions[currentQuestion];
-      const nextQuestion = question[value];
+  if (nextQuestion === "shobon") {
+    document.querySelector(".label").hidden = true;
+    questionElement.textContent = "(´・ω・｀)";
+    resultElement.textContent = "";
+    buttonsElement.hidden = true;
+    restartButton.hidden = true;
+    return;
+  }
 
-      history.push({
-        questionId: currentQuestion,
-        answer: value
-      });
+  if (nextQuestion === "end") {
+    questionElement.textContent = "アンケート終了";
+    resultElement.textContent = "回答ありがとうございました！";
+    buttonsElement.hidden = true;
+    restartButton.hidden = false;
+    return;
+  }
 
-      if (nextQuestion === "shobon") {
-        questionElement.textContent = "(´・ω・｀)";
-        resultElement.textContent = "(´・ω・｀)";
-        buttonsElement.hidden = true;
-        restartButton.hidden = false;
-        return;
-      }
+  currentQuestion = nextQuestion;
+  showQuestion();
+}
 
-      currentQuestion = nextQuestion;
-      showQuestion();
-    }
 
     yesButton.addEventListener("click", () => answer("yes"));
     noButton.addEventListener("click", () => answer("no"));
