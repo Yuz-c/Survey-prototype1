@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -91,16 +91,6 @@
       min-height: 21px;
     }
 
-    .restart {
-      margin-top: 12px;
-      width: 100%;
-      background: transparent;
-      color: #FFFFFF;
-      border: 1px solid #E7E1EE;
-      font-size: 14px;
-      min-height: 44px;
-    }
-
     [hidden] {
       display: none !important;
     }
@@ -119,58 +109,54 @@
     </div>
 
     <p id="result" aria-live="polite"></p>
-
-    <button class="restart" id="restartButton" hidden>
-      最初からやり直す
-    </button>
   </main>
 
   <script>
     // 質問と、回答後に進む先を設定する
-    
-const questions = {
-  q1: {
-    text: "ready?",
-    yes: "q2",
-    no: "shobon"
-  },
+    const questions = {
+      q1: {
+        text: "ready?",
+        yes: "q2",
+        no: "shobon"
+      },
 
-  q2: {
-    text: "どー？",
-    yes: "q4",
-    no: "q5"
-  },
+      q2: {
+        text: "どー？",
+        yes: "q4",
+        no: "q5"
+      },
 
-  shobon: {
-    text: "(´・ω・｀)",
-    yes: "end",
-    no: "end"
-  },
+      shobon: {
+        text: "(´・ω・｀)",
+        yes: "end",
+        no: "end"
+      },
 
-  q4: {
-    text: "O1え、マジで？",
-    yes: "half1",
-    no: "q7"
-  },
+      q4: {
+        text: "O1え、マジで？",
+        yes: "half1",
+        no: "q7"
+      },
 
-  q5: {
-    text: "X1やっぱダメすか...",
-    yes: "shobon",
-    no: "q9"
-  },
+      q5: {
+        text: "X1やっぱダメすか...",
+        yes: "shobon",
+        no: "q9"
+      },
 
-  q7: {
-    text: "あ、やっぱダメ?",
-    yes: "q5",
-    no: "q9"
-  },
+      q7: {
+        text: "あ、やっぱダメ?",
+        yes: "q5",
+        no: "q9"
+      },
 
-  q9: {
-    text: "え?やっぱワンチャンある?",
-    yes: "q4",
-    no: "q5"
-  }
-};
+      q9: {
+        text: "え?やっぱワンチャンある?",
+        yes: "q4",
+        no: "q5"
+      }
+    };
+
     let currentQuestion = "q1";
     const history = [];
 
@@ -179,50 +165,49 @@ const questions = {
     const buttonsElement = document.getElementById("buttons");
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
-    const restartButton = document.getElementById("restartButton");
 
-    
-function answer(value) {
-  const question = questions[currentQuestion];
-  const nextQuestion = question[value];
+    function showQuestion() {
+      const question = questions[currentQuestion];
 
-  history.push({
-    questionId: currentQuestion,
-    answer: value
-  });
+      questionElement.textContent = question.text;
+      resultElement.textContent = "";
+      buttonsElement.hidden = false;
+      document.querySelector(".label").hidden = false;
+    }
 
-  if (nextQuestion === "shobon") {
-    document.querySelector(".label").hidden = true;
-    questionElement.textContent = "(´・ω・｀)";
-    resultElement.textContent = "";
-    buttonsElement.hidden = true;
-    restartButton.hidden = true;
-    return;
-  }
+    function answer(value) {
+      const question = questions[currentQuestion];
+      const nextQuestion = question[value];
 
-  if (nextQuestion === "end") {
-    questionElement.textContent = "アンケート終了";
-    resultElement.textContent = "回答ありがとうございました！";
-    buttonsElement.hidden = true;
-    restartButton.hidden = false;
-    return;
-  }
+      history.push({
+        questionId: currentQuestion,
+        answer: value
+      });
 
-  currentQuestion = nextQuestion;
-  showQuestion();
-}
+      if (nextQuestion === "shobon") {
+        document.querySelector(".label").hidden = true;
+        questionElement.textContent = "(´・ω・｀)";
+        resultElement.textContent = "";
+        buttonsElement.hidden = true;
+        return;
+      }
 
+      if (nextQuestion === "end") {
+        questionElement.textContent = "アンケート終了";
+        resultElement.textContent = "回答ありがとうございました！";
+        buttonsElement.hidden = true;
+        return;
+      }
+
+      currentQuestion = nextQuestion;
+      showQuestion();
+    }
 
     yesButton.addEventListener("click", () => answer("yes"));
     noButton.addEventListener("click", () => answer("no"));
-
-    restartButton.addEventListener("click", () => {
-      currentQuestion = "q1";
-      history.length = 0;
-      showQuestion();
-    });
 
     showQuestion();
   </script>
 </body>
 </html>
+```
