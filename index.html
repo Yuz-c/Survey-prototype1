@@ -129,9 +129,9 @@
     // 質問と、回答後に進む先を設定する
     const questions = {
       q1: {
-        text: "仮の質問1",
+        text: "ready?",
         yes: "q2",
-        no: "q3"
+        no: "shobon"
       },
 
       q2: {
@@ -140,12 +140,9 @@
         no: "q5"
       },
 
-      q3: {
-        text: "仮の質問3",
-        yes: "q6",
-        no: "q7"
-      },
-
+      shobon:{
+        h1: "(´・ω・｀)"
+          
       q4: {
         text: "仮の質問4",
         yes: "q8",
@@ -211,9 +208,9 @@
         answer: value
       });
 
-      if (nextQuestion === "end") {
-        questionElement.textContent = "アンケート終了";
-        resultElement.textContent = "回答ありがとうございました！";
+      if (nextQuestion === "shobon") {
+        questionElement.textContent = "(´・ω・｀)";
+        resultElement.textContent = "(´・ω・｀)";
         buttonsElement.hidden = true;
         restartButton.hidden = false;
         return;
